@@ -12,6 +12,7 @@ jobs:
         with:
           path: /source-code/test3.txt
         id: diff
+      - run: echo "simple-diff-output ${{diff.outputs}}"
       - run: echo "added"
         if: steps.diff.outputs.added == true
       - run: echo "modified"
