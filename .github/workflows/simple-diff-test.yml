@@ -16,7 +16,7 @@ jobs:
           path: source-code/**
         id: diff
       - run: echo "simple-diff-output added ${{steps.diff.outputs.added}}, modified ${{steps.diff.outputs.modified}}, removed ${{steps.diff.outputs.removed}}, renamed ${{steps.diff.outputs.renamed}}"
-      - run: echo "added"
+      - run: node scripts/helloworld.js
         if: ${{steps.diff.outputs.added == 'true'}}
       - run: echo "modified"
         if: ${{steps.diff.outputs.modified == 'true'}}
@@ -24,4 +24,3 @@ jobs:
         if: ${{steps.diff.outputs.removed == 'true'}}
       - run: echo "renamed"
         if: ${{steps.diff.outputs.renamed == 'true'}}
-      
