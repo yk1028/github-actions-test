@@ -1,6 +1,10 @@
 name: Simple Diff Test Workflow
 
-on: [push]
+on:
+ push:
+   paths:
+    - source-code/**
+
 
 jobs:
   diff:
@@ -10,9 +14,9 @@ jobs:
       - name: Simple Diff
         uses: mudlabs/simple-diff@v1.2.0
         with:
-          path: /source-code/test3.txt
+          path: source-code/**
         id: diff
-      - run: echo "simple-diff-output ${{steps.diff.outputs}}"
+      - run: echo "simple-diff-output ${{steps.diff.outputs.modified}}"
       - run: echo "added"
         if: steps.diff.outputs.added == true
       - run: echo "modified"
