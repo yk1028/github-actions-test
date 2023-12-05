@@ -1,9 +1,6 @@
-name: simple diff test workflow
+name: Simple Diff Test Workflow
 
-on:
-  push:
-    paths:
-      - /source-code
+on: [push]
 
 jobs:
   diff:
