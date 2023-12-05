@@ -1,3 +1,3 @@
 const name = getInput('name');
 
-console.log(`Hello ${name}! test`);
+console.log(`Hello ${name}!`);
