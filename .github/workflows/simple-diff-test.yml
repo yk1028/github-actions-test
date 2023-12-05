@@ -1,0 +1,24 @@
+name: simple diff test workflow
+
+on:
+  push:
+    paths:
+      - /source-code
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Simple Diff
+        uses: mudlabs/simple-diff@v1.2.0
+        id: diff
+      - run: echo "added"
+        if: steps.diff.outputs.added == true
+      - run: echo "modified"
+        if: steps.diff.outputs.modified == true
+      - run: echo "removed"
+        if: steps.diff.outputs.removed == true
+      - run: echo "renamed"
+        if: steps.diff.outputs.renamed == true
+      
