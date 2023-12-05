@@ -3,7 +3,7 @@ name: Say Hello
 on:
  push:
    paths:
-    - scripts/**
+    - scripts/helloworld.js
 
 jobs:
   run-my-action:
