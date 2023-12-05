@@ -17,11 +17,11 @@ jobs:
         id: diff
       - run: echo "simple-diff-output added ${{steps.diff.outputs.added}}, modified ${{steps.diff.outputs.modified}}, removed ${{steps.diff.outputs.removed}}, renamed ${{steps.diff.outputs.renamed}}"
       - run: echo "added"
-        if: ${{steps.diff.outputs.added}}
+        if: ${{steps.diff.outputs.added == 'true'}}
       - run: echo "modified"
-        if: ${{steps.diff.outputs.modified}}
+        if: ${{steps.diff.outputs.modified == 'true'}}
       - run: echo "removed"
-        if: ${{steps.diff.outputs.removed}}
+        if: ${{steps.diff.outputs.removed == 'true'}}
       - run: echo "renamed"
-        if: ${{steps.diff.outputs.renamed}}
+        if: ${{steps.diff.outputs.renamed == 'true'}}
       
