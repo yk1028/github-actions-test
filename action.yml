@@ -10,4 +10,4 @@ inputs:
   name:
     description: 'The name of the person to greet'
     required: true
-    default: 'World'
+    default: 'Won geun'
