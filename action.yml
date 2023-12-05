@@ -4,10 +4,10 @@ author: 'yk1028'
 
 runs:
   using: 'node16'
-  main: 'scripts/helloworld.js'
+  main: 'src/index.js'
 
 inputs:
   name:
     description: 'The name of the person to greet'
     required: true
-    default: 'Won geun'
+    default: 'World'

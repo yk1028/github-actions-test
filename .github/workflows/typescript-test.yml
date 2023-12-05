@@ -1,9 +1,6 @@
 name: Say Hello
 
-on:
- push:
-   paths:
-    - scripts/helloworld.js
+on: [push]
 
 jobs:
   run-my-action:
@@ -12,3 +9,5 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: ./
+        with:
+          name: 'won geun'
