@@ -1,10 +1,10 @@
 name: 'My Custom Action'
 description: 'Say Hello'
-author: 'Leonardo Montini'
+author: 'yk1028'
 
 runs:
   using: 'node16'
-  main: 'dist/index.js'
+  main: 'script/helloworld.js'
 
 inputs:
   name:
