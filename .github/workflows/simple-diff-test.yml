@@ -10,7 +10,7 @@ jobs:
       - name: Simple Diff
         uses: mudlabs/simple-diff@v1.2.0
         with:
-          path: source-code/
+          path: source-code/test3.txt
         id: diff
       - run: echo "added"
         if: steps.diff.outputs.added == true
