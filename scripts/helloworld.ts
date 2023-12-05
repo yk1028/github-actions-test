@@ -1,1 +1,3 @@
-console.log("hello ts world")
+const name = getInput('name');
+
+console.log(`Hello ${name}!`);
