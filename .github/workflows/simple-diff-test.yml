@@ -9,6 +9,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Simple Diff
         uses: mudlabs/simple-diff@v1.2.0
+        with:
+          path: /source-code
         id: diff
       - run: echo "added"
         if: steps.diff.outputs.added == true
