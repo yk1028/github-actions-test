@@ -18,14 +18,14 @@ jobs:
         id: changes
         # Set outputs using the command.
         run: |
-          echo "commits=${{ github.event.size }}" >> $GITHUB_OUTPUT
-          echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.commits[0] }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
-          echo "ts=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.commits[0] }} ${{ github.sha }} | grep .ts$ | xargs)" >> $GITHUB_OUTPUT
+          echo "commits=${{ github.event.distinct_size }}" >> $GITHUB_OUTPUT
+    # echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.commits[0] }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
+    # echo "ts=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.commits[0] }} ${{ github.sha }} | grep .ts$ | xargs)" >> $GITHUB_OUTPUT
     # Map a step output to a job output
     outputs:
       commits: ${{ steps.changes.outputs.commits}}
-      all: ${{ steps.changes.outputs.all}}
-      ts: ${{ steps.changes.outputs.ts }}
+      # all: ${{ steps.changes.outputs.all}}
+      # ts: ${{ steps.changes.outputs.ts }}
 
   lint:
     runs-on: ubuntu-latest
@@ -37,5 +37,5 @@ jobs:
       - name: echo changed files
         run: |
           echo ${{needs.changedfiles.outputs.commits}}
-          echo ${{needs.changedfiles.outputs.ts}}
-          echo ${{needs.changedfiles.outputs.all}}
+      # echo ${{needs.changedfiles.outputs.ts}}
+      # echo ${{needs.changedfiles.outputs.all}}
