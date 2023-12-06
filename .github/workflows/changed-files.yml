@@ -18,8 +18,8 @@ jobs:
         id: changes
         # Set outputs using the command.
         run: |
-          echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.commits[${{github.event.size}} - 1][sha] }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
-          echo "ts=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.commits[${{github.event.size}} - 1][sha] }} ${{ github.sha }} | grep .ts$ | xargs)" >> $GITHUB_OUTPUT
+          echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.commits[0][sha] }} ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
+          echo "ts=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.commits[0][sha] }} ${{ github.sha }} | grep .ts$ | xargs)" >> $GITHUB_OUTPUT
     # Map a step output to a job output
     outputs:
       all: ${{ steps.changes.outputs.all}}
