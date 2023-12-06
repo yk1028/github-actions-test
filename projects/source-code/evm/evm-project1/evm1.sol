@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-contract TestContract1{
+contract TestContract{
 
     uint value;
 
