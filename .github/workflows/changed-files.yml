@@ -34,6 +34,5 @@ jobs:
     steps:
       - name: echo changed files
         run: |
-          echo ${{needs.changedfiles.outputs.commits}}
-          echo ${{needs.changedfiles.outputs.ts}}
           echo ${{needs.changedfiles.outputs.all}}
+          echo ${{needs.changedfiles.outputs.ts}}
