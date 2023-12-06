@@ -1,6 +1,9 @@
 name: Say Hello
 
-on: [push]
+on:
+  push:
+    paths:
+      - dist/index.js
 
 jobs:
   run-my-action:
