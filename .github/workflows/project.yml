@@ -19,7 +19,7 @@ jobs:
         id: changes
         # Set outputs using the command.
         run: |
-          echo $(git diff-tree -X cumulative --name-only --diff-filter=ACMRT ${{ github.event.before }} ${{ github.event.after }} | xargs)
+          echo $(git diff-tree --dirstat=cumulative --name-only --diff-filter=ACMRT ${{ github.event.before }} ${{ github.event.after }} | xargs)
     # Map a step output to a job output
     # outputs:
     #   all: ${{ steps.changes.outputs.all}}
