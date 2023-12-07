@@ -12,29 +12,22 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
-        
       - name: cargo build
         id: build
         working-directory: ./compile/source-code/cosmwasm/abi-storage # pr event에서 diff 확인 후 지정
         run: |
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-
-        # build 결과에 대한 file name, path output 저장 필요
           echo "wasm_name=$(cd ./target/wasm32-unknown-unknown/release/ | ls | grep .wasm$)" >> $GITHUB_OUTPUT
           echo "wasm_path=./compile/source-code/cosmwasm/abi-storage/target/wasm32-unknown-unknown/release/" >> $GITHUB_OUTPUT
-      
       - name: git commit & push
         run: |
           mkdir -p "./compiled/wasm/${{build.wasm_name}}"
-        
-        # 위에서 지정한 output 가지고 아래 내용 처리
           cp "${{build.wasm_path}}/${{build.wasm_name}}" "./compiled/wasm/${{build.wasm_name}}"
-          git add "./compiled/wasm/${{build.wasm_name}}"
-
+          git add ../../../wasm
           git config --local user.name github-actions[bot]
           git config --local user.email github-actions[bot]@users.noreply.github.com
           git commit -m "action: .wasm save test"
           git push
-        
-      # 이후 commit으로 compile 결과 고정
+
+          
