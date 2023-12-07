@@ -1,9 +1,6 @@
 name: Changed Files
 on:
-  push:
-    paths:
-      - changed-files/**
-      - .github/workflows/changed-files.yml
+  workflow_dispatch:
 
 jobs:
   changedfiles:

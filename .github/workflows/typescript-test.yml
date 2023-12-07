@@ -1,9 +1,7 @@
 name: Say Hello
 
 on:
-  push:
-    paths:
-      - dist/index.js
+  workflow_dispatch:
 
 jobs:
   run-my-action:
