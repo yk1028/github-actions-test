@@ -21,9 +21,8 @@ jobs:
           cargo build --release --target wasm32-unknown-unknown
           cd target/wasm32-unknown-unknown/release
           ls
+          cp abi_storage.wasm ../../..
           cd ../../..
-          mkdir -p ../../../wasm && cp target/wasm32-unknown-unknown/release/abi-storage.wasm ../../../wasm
-          cd ../../../wasm
           git add abi-storage.wasm
           git commit -m "action: .wasm save test"
           git push
