@@ -22,6 +22,8 @@ jobs:
           mkdir -p ../../../wasm
           cp ./target/wasm32-unknown-unknown/release/abi_storage.wasm ../../../wasm
           git add ../../../wasm
+          git config --local user.name github-actions[bot]
+          git config --local user.email github-actions[bot]@users.noreply.github.com
           git commit -m "action: .wasm save test"
           git push
         
