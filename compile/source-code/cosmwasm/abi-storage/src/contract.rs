@@ -24,7 +24,7 @@ pub fn execute(_deps: DepsMut, _env: Env, _info: MessageInfo, _msg: ExecuteMsg) 
 }
 
 fn store_data(storage: &mut dyn Storage, abi: String) -> StdResult<Response> {
-    ABI.save(storage, &abi);
+    let _ = ABI.save(storage, &abi);
 
     Ok(Response::new().add_attribute("action", "store_data").add_attribute("abi", abi))
 }
