@@ -19,10 +19,16 @@ jobs:
         run: |
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-          git add .
-          git config --local user.name github-actions[bot]
-          git config --local user.email github-actions[bot]@users.noreply.github.com
+          mkdir -p ../../../wasm
+          cp ./target/wasm32-unknown-unknown/release/abi_storage.wasm ../../../wasm
+          git add ../../../wasm
           git commit -m "action: .wasm save test"
           git push
         
+      # - name: commit & push
+      #   working-directory: ./compile/source-code/cosmwasm/abi-storage
+      #   run: |
+      #     git add .
+      #     git commit -m "action: .wasm save test"
+      #     git push  
       # 이후 commit으로 compile 결과 고정
