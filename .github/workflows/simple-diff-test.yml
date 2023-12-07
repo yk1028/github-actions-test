@@ -1,0 +1,28 @@
+name: Simple Diff Test Workflow
+
+on:
+ push:
+   paths:
+    - source-code/**
+
+jobs:
+  diff:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Simple Diff
+        uses: mudlabs/simple-diff@v1.2.0
+        with:
+          path: source-code/**
+        id: diff
+      - run: echo "simple-diff-output added ${{steps.diff.outputs.added}}, modified ${{steps.diff.outputs.modified}}, removed ${{steps.diff.outputs.removed}}, renamed ${{steps.diff.outputs.renamed}}"
+      - run: echo "added"
+        if: ${{steps.diff.outputs.added == 'true'}}
+      - run: echo "modified"
+        if: ${{steps.diff.outputs.modified == 'true'}}
+      - run: echo "removed"
+        if: ${{steps.diff.outputs.removed == 'true'}}
+      - run: echo "renamed"
+        if: ${{steps.diff.outputs.renamed == 'true'}}
+      - run: ts-node scripts/helloworld.ts
+        if: ${{steps.diff.outputs.added == 'true'}}

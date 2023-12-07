@@ -1,0 +1,35 @@
+name: Changed Files
+on:
+  workflow_dispatch:
+
+jobs:
+  changedfiles:
+    runs-on: ubuntu-latest
+    steps:
+        # Make sure we have some code to diff.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get changed files
+        id: changes
+        # Set outputs using the command.
+        run: |
+          echo "all=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.before }} ${{ github.event.after }} | xargs)" >> $GITHUB_OUTPUT
+          echo "ts=$(git diff --name-only --diff-filter=ACMRT ${{ github.event.before }} ${{ github.event.after }}  | grep .ts$ | xargs)" >> $GITHUB_OUTPUT
+    # Map a step output to a job output
+    outputs:
+      all: ${{ steps.changes.outputs.all}}
+      ts: ${{ steps.changes.outputs.ts }}
+
+  lint:
+    runs-on: ubuntu-latest
+    # require the first job to have ran
+    needs: changedfiles
+    # only run there are changed files
+    # if: ${{needs.changedfiles.outputs.ts}}
+    steps:
+      - name: echo changed files
+        run: |
+          echo ${{needs.changedfiles.outputs.all}}
+          echo ${{needs.changedfiles.outputs.ts}}
