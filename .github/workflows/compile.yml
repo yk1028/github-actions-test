@@ -9,4 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: ./compile/
+      # - uses: ./compile/
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: cargo build
+        working-directory: ./compile/source-code/cosmwasm/abi-storage
+        run: cargo build --release --target warsm32-unknown-unknown
+      # 이후 commit으로 compile 결과 고정
