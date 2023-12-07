@@ -16,12 +16,15 @@ jobs:
         
       - name: cargo build
         working-directory: ./compile/source-code/cosmwasm/abi-storage
+        with:
+          github-token: ${{ secrets.COMPILEBOT_TOKEN }}
         run: |
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
           git add .
-          git config --local user.email "yk1028@com2us.com"
-          git config --local user.name "yk1028"
+          git config --local user.name github-actions[bot]
+          git config --local user.email github-actions[bot]@users.noreply.github.com
           git commit -m "action: .wasm save test"
           git push
+        
       # 이후 commit으로 compile 결과 고정
