@@ -5,7 +5,7 @@ name: compile action
 
 runs:
   using: 'node16'
-  main: 'dist/compile.js'
+  main: 'dist/index.js'
 
 inputs:
   path:
