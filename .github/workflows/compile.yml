@@ -19,8 +19,7 @@ jobs:
         run: |
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-          cp target/wasm32-unknown-unknown/release/abi-storage.wasm .
-          git add abi-storage.wasm
+          git add .
           git commit -m "action: .wasm save test"
           git push
       # 이후 commit으로 compile 결과 고정
