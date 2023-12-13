@@ -32,7 +32,7 @@ jobs:
         id: step4
         run: |
           diff="${{env.GIT_DIFF}}"
-          path="${diff[0]:0:13}}"
+          path="${diff[0]:0:14}"
           echo $path
           for i in "${{ env.GIT_DIFF }}"
           do
