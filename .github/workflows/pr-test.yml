@@ -31,13 +31,13 @@ jobs:
       - name: print custom git diff
         id: step4
         run: |
-          $path = pr-test\/test1\/project1
+          path = pr-test\/test1\/project1
           for i in "${{ env.GIT_DIFF }}"
           do
-            if [[ $i == path ]]; then
+            if [[ $i == $path ]]; then
               echo $i
             fi
-            if [[ $i != path ]]; then
+            if [[ $i != $path ]]; then
               exit 1
             fi
           done
