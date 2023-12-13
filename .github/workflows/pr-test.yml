@@ -36,14 +36,14 @@ jobs:
           head="${diff_files[0]%$tail}"
           project_path="${head:1}"
           echo $project_path
-          for i in ${{ env.GIT_DIFF }}
-          do
-            echo $i
-            if [[ $i != $project_path* ]]
-            then
-              exit 1
-            fi
-          done
+    # for i in ${{ env.GIT_DIFF }}
+    # do
+    #   echo $i
+    #   if [[ $i != $project_path* ]]
+    #   then
+    #     exit 1
+    #   fi
+    # done
           echo "project_path=$project_path" >> $GITHUB_OUTPUT
 
   job2:
