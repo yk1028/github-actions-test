@@ -32,18 +32,15 @@ jobs:
         id: step4
         run: |
           diff="${{ env.GIT_DIFF }}"
-          d="${{ env.GIT_DIFF }}"
-          echo $d
-          tail="${d#*/*/*/}"
-          head="${d%$tail}"
+          IFS=' ' read -r -a diff_files <<< "$diff"
+          tail="${diff_files[0]#*/*/*/}"
+          head="${diff_files[0]%$tail}"
           echo $head
-
           for i in ${{ env.GIT_DIFF }}
           do
             if [[ $i == $head* ]]; then
-              echo $i+
+              echo $i
             fi
-            
           done
 
   # project_path 변수 하나 선언해 놓고
