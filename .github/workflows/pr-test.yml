@@ -18,7 +18,7 @@ jobs:
         with:
           SET_ENV_NAME_COUNT: diff_count
           PATTERNS: |
-            pr-test/test1/([^/]+/){1}
+            pr-test/test1/**
       - name: print git diff
         id: step1
         run: echo "${{ env.GIT_DIFF }}"
@@ -28,6 +28,13 @@ jobs:
       - name: print git diff count
         id: step3
         run: echo "${{ env.diff_count }}"
+      - name: print custom git diff
+        id: step4
+        run: |
+          for i in "${{ env.GIT_DIFF }}"
+          do
+            echo $i
+          done
 
   # 다른 job에서 전체 결과에 대한 output을 어디에 저장해 놓고 사용하는 방법..
 
