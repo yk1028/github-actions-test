@@ -33,7 +33,8 @@ jobs:
         run: |
           for i in "${{ env.GIT_DIFF }}"
           do
-            echo $i
+            if [[ $i == pr-test\/test1\/** ]]; then
+              echo $i
           done
 
   # 다른 job에서 전체 결과에 대한 output을 어디에 저장해 놓고 사용하는 방법..
