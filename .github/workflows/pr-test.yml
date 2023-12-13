@@ -35,7 +35,7 @@ jobs:
           d=$diff[0]
           echo $d
           tail="${d#*/*/*/}"
-          head="${path%$tail}"
+          head="${d%$tail}"
           echo $head
           
 
