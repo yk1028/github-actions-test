@@ -31,7 +31,7 @@ jobs:
       - name: print custom git diff
         id: step4
         run: |
-          path="${{env.GIT_DIFF}}[0]:0:14"
+          path="${{env.GIT_DIFF[0]:0:14}}"
           echo $path
           for i in "${{ env.GIT_DIFF }}"
           do
