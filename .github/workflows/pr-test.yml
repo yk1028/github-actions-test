@@ -34,6 +34,11 @@ jobs:
           tail="${diff_files[0]#*/*/*/}"
           head="${diff_files[0]%$tail}"
           project_path="${head:1}"
+          if [[ $i != pr-test/test1* ]]
+          then
+            echo "The project path must start with pr-test/test1!"
+            exit 1
+          fi
           for i in ${{ env.GIT_DIFF }}
           do
             if [[ $i != $project_path* ]]
