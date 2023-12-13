@@ -31,8 +31,8 @@ jobs:
       - name: print custom git diff
         id: step4
         run: |
-          diff=${{env.GIT_DIFF}}
-          d=$diff[0]
+          diff=${{ env.GIT_DIFF }}
+          d=${diff[0]}
           echo $d
           tail="${d#*/*/*/}"
           head="${d%$tail}"
