@@ -31,10 +31,12 @@ jobs:
       - name: print custom git diff
         id: step4
         run: |
-          diff="${{env.GIT_DIFF}}"
-          path="${diff[0]}"
-          project_path="${path#*/*/*/}"
-          echo $project_path
+          diff=${{env.GIT_DIFF}}
+          d=$diff[0]
+          echo $d
+          tail="${d#*/*/*/}"
+          head="${path%$tail}"
+          echo $head
           
 
 #  for i in $diff
