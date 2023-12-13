@@ -30,8 +30,7 @@ jobs:
       - name: check number of project
         id: step4
         run: |
-          diff="${{ env.GIT_DIFF }}"
-          IFS=' ' read -r -a diff_files <<< "$diff"
+          IFS=' ' read -r -a diff_files <<< "${{ env.GIT_DIFF }}"
           tail="${diff_files[0]#*/*/*/}"
           head="${diff_files[0]%$tail}"
           project_path="${head:1}"
