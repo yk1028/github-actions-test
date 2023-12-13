@@ -31,25 +31,25 @@ jobs:
       - name: print custom git diff
         id: step4
         run: |
-          diff=${{ env.GIT_DIFF }}
-          d=${diff[0]}
+          diff="${{ env.GIT_DIFF }}"
+          d="${{ env.GIT_DIFF[0] }}"
           echo $d
           tail="${d#*/*/*/}"
           head="${d%$tail}"
           echo $head
-          
 
-#  for i in $diff
-#           do
-#             if [[ $i == $path* ]]; then
-#               echo $i
-#             fi
-#             if [[ $i != $path* ]]; then
-#               exit 1
-#             fi
-#           done
+          for i in ${{ env.GIT_DIFF }}
+          do
+            if [[ $i == $head* ]]; then
+              echo $i
+            fi
+            
+          done
 
   # project_path 변수 하나 선언해 놓고
+  # if [[ $i != $path* ]]; then
+  #             exit 1
+  #           fi
 
   # job2:
   #   runs-on: ubuntu-latest
