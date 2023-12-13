@@ -35,7 +35,7 @@ jobs:
           do
             if [[ $i == pr-test\/test1\/project1 ]]; then
               echo $i
-            else; then
+            if [[ $i != pr-test\/test1\/project1 ]]; then
               exit 1
           done
 
