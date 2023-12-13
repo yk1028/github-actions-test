@@ -15,8 +15,8 @@ jobs:
       - uses: technote-space/get-diff-action@v6
         with:
           SET_ENV_NAME_COUNT:
-          PATTERNS: |
-            pr-test/test1/**
+          # PATTERNS: |
+          #   pr-test/test1/**
       - name: print git diff
         id: step1
         run: echo "${{ env.GIT_DIFF }}"
