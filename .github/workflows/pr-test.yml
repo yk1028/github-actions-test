@@ -35,10 +35,18 @@ jobs:
           tail="${diff_files[0]#*/*/*/}"
           head="${diff_files[0]%$tail}"
           project_path="${head:1}"
-          echo $project_path
+          for i in ${{ env.GIT_DIFF }}
+          do
+            echo $i
+            if [[ $i != $project_path* ]]
+            then
+              echo "Only one project can be registered!"
+              exit 1
+            fi
+          done
           echo "project_path=$project_path" >> $GITHUB_OUTPUT
 
-  job2:
+  compile-job:
     runs-on: ubuntu-latest
     needs: diff-check-job
     steps:
@@ -47,11 +55,3 @@ jobs:
         run: echo "$PROJECT_PATH"
 
 
-# for i in ${{ env.GIT_DIFF }}
-      # do
-      #   echo $i
-      #   if [[ $i != $project_path* ]]
-      #   then
-      #     exit 1
-      #   fi
-      # done
