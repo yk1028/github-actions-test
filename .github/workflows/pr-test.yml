@@ -16,6 +16,8 @@ jobs:
       - uses: technote-space/get-diff-action@v6
         with:
           SET_ENV_NAME_COUNT: diff_count
+          PATTERNS: |
+            pr-test/test1/**
       - name: print git diff
         id: step1
         run: echo "${{ env.GIT_DIFF }}"
@@ -34,7 +36,7 @@ jobs:
           project_path="${head:1}"
           if [[ $project_path != pr-test/test1/* ]]
           then
-            echo "The project path must start with pr-test/test1!"
+            echo "Project must be registered in pr-test/test!"
             exit 1
           fi
           for i in ${{ env.GIT_DIFF }}
@@ -54,5 +56,24 @@ jobs:
       - env:
           PROJECT_PATH: ${{needs.diff-check-job.outputs.project_path}}
         run: echo "$PROJECT_PATH"
+
+  compile-cosmwasm-job:
+    name: Compile cosmwasm contract
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+        
+      - name: cargo build
+        env:
+          PROJECT_PATH: ${{needs.diff-check-job.outputs.project_path}}
+        working-directory: ./compile/source-code/cosmwasm/$PROJECT_PATH
+        run: |
+          rustup target add wasm32-unknown-unknown
+          cargo build --release --target wasm32-unknown-unknown
+          cd target/wasm32-unknown-unknown/release
+          ls
 
 
