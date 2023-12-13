@@ -32,12 +32,9 @@ jobs:
         id: step4
         run: |
           diff="${{env.GIT_DIFF}}"
+          path=$(echo $diff[0] | tr "/" "\n")
 
-          p1=${$diff[0] | cut -d '/' -f1}
-          p2=${$diff[0] | cut -d '/' -f1}
-          p3=${$diff[0] | cut -d '/' -f1}
-
-          path="$p1/$p2/$p3/"
+          path="$path[0]/$path[1]/$path[2]/"
           echo $path
           for i in $diff
           do
