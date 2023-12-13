@@ -37,7 +37,6 @@ jobs:
           project_path="${head:1}"
           for i in ${{ env.GIT_DIFF }}
           do
-            echo $i
             if [[ $i != $project_path* ]]
             then
               echo "Only one project can be registered!"
