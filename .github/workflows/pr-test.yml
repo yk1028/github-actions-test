@@ -32,7 +32,7 @@ jobs:
         id: step4
         run: |
           diff="${{ env.GIT_DIFF }}"
-          d="${{ env.GIT_DIFF[0] }}"
+          d="${{ env.GIT_DIFF }}"[0]
           echo $d
           tail="${d#*/*/*/}"
           head="${d%$tail}"
