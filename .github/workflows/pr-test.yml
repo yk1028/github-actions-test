@@ -33,9 +33,9 @@ jobs:
         run: |
           diff="${{env.GIT_DIFF}}"
 
-          p1=${$diff[]0 | cut -d '/' -f1}
-          p2=${$diff[]0 | cut -d '/' -f1}
-          p3=${$diff[]0 | cut -d '/' -f1}
+          p1=${$diff[0] | cut -d '/' -f1}
+          p2=${$diff[0] | cut -d '/' -f1}
+          p3=${$diff[0] | cut -d '/' -f1}
 
           path="$p1/$p2/$p3/"
           echo $path
