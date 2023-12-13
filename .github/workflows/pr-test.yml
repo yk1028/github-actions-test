@@ -18,7 +18,7 @@ jobs:
         with:
           SET_ENV_NAME_COUNT: diff_count
           PATTERNS: |
-            pr-test/test1/**
+            pr-test/test1/**/
       - name: print git diff
         id: step1
         run: echo "${{ env.GIT_DIFF }}"
