@@ -32,7 +32,7 @@ jobs:
         id: step4
         run: |
           diff="${{env.GIT_DIFF}}"
-          path=$diff[0]
+          path="${diff[0]}"
           project_path="${path#*/*/*/}"
           echo $project_path
           
