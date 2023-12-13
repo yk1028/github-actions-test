@@ -9,9 +9,8 @@ jobs:
   diff-check-job:
     runs-on: ubuntu-latest
     # Map a step output to a job output
-    # outputs:
-    #   output1: ${{ steps.step1.outputs.path }}
-
+    outputs:
+      project_path: ${{ steps.step4.outputs.project_path }}
     steps:
       - uses: actions/checkout@v2
       - uses: technote-space/get-diff-action@v6
@@ -28,35 +27,29 @@ jobs:
       - name: print git diff count
         id: step3
         run: echo "${{ env.diff_count }}"
-      - name: print custom git diff
+      - name: check number of project
         id: step4
         run: |
           diff="${{ env.GIT_DIFF }}"
           IFS=' ' read -r -a diff_files <<< "$diff"
           tail="${diff_files[0]#*/*/*/}"
           head="${diff_files[0]%$tail}"
-          head="${head:1}"
-          echo $head
+          project_path="${head:1}"
+          echo $project_path
           for i in ${{ env.GIT_DIFF }}
           do
             echo $i
-            if [[ $i == $head* ]]
+            if [[ $i != $project_path* ]]
             then
-              echo "match"
-            else
-              echo "mismatch"
+              exit 1
             fi
           done
+          echo "project_path=$project_path" >> $GITHUB_OUTPUT
 
-  # project_path 변수 하나 선언해 놓고
-  # if [[ $i != $path* ]]; then
-  #             exit 1
-  #           fi
-
-  # job2:
-  #   runs-on: ubuntu-latest
-  #   needs: diff-check-job
-  #   steps:
-  #     - env:
-  #         OUTPUT1: ${{needs.diff-check-job.outputs.output1}}
-  #       run: echo "$OUTPUT1"
+  job2:
+    runs-on: ubuntu-latest
+    needs: diff-check-job
+    steps:
+      - env:
+          PROJECT_PATH: ${{needs.diff-check-job.outputs.project_path}}
+        run: echo "$PROJECT_PATH"
