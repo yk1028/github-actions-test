@@ -1,0 +1,14 @@
+# compile 수행 typescript 실행 action
+# input: project path, output: .wasm
+
+name: compile action
+
+runs:
+  using: 'node16'
+  main: 'compile/lib/compile.js'
+
+inputs:
+  path:
+    description: 'contract source code path'
+    required: true
+    default: 'tmp/path'
