@@ -34,7 +34,7 @@ jobs:
           tail="${diff_files[0]#*/*/*/}"
           head="${diff_files[0]%$tail}"
           project_path="${head:1}"
-          if [[ $project_path != pr-test/test1* ]]
+          if [[ $project_path != pr-test/test1/* ]]
           then
             echo "The project path must start with pr-test/test1!"
             exit 1
