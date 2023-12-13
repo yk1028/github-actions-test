@@ -18,7 +18,7 @@ jobs:
           PATTERNS: |
             pr-test/test1/**
       - name: print git diff
-        id: step2
+        id: step1
         run: echo "${{ env.GIT_DIFF }}"
       - name: print git diff filtered
         id: step2
