@@ -33,11 +33,13 @@ jobs:
         run: |
           for i in "${{ env.GIT_DIFF }}"
           do
-            if [[ $i == pr-test\/test1\/** ]]; then
+            if [[ $i == pr-test\/test1\/project1 ]]; then
               echo $i
+            else; then
+              exit 1
           done
 
-  # 다른 job에서 전체 결과에 대한 output을 어디에 저장해 놓고 사용하는 방법..
+  # project_path 변수 하나 선언해 놓고
 
   # job2:
   #   runs-on: ubuntu-latest
