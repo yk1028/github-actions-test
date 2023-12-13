@@ -32,7 +32,7 @@ jobs:
         id: step4
         run: |
           diff="${{env.GIT_DIFF}}"
-          path="${ $diff[0] | cut -f 1,2,3,4 -d '/'}"
+          path="${ echo $diff[0] | cut -f 1,2,3,4 -d '/'}"
           echo $path
 
     # path=""
