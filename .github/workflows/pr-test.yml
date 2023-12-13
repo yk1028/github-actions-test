@@ -38,15 +38,6 @@ jobs:
           echo $project_path
           echo "project_path=$project_path" >> $GITHUB_OUTPUT
 
-           # for i in ${{ env.GIT_DIFF }}
-    # do
-    #   echo $i
-    #   if [[ $i != $project_path* ]]
-    #   then
-    #     exit 1
-    #   fi
-    # done
-
   job2:
     runs-on: ubuntu-latest
     needs: diff-check-job
@@ -54,3 +45,13 @@ jobs:
       - env:
           PROJECT_PATH: ${{needs.diff-check-job.outputs.project_path}}
         run: echo "$PROJECT_PATH"
+
+
+# for i in ${{ env.GIT_DIFF }}
+      # do
+      #   echo $i
+      #   if [[ $i != $project_path* ]]
+      #   then
+      #     exit 1
+      #   fi
+      # done
