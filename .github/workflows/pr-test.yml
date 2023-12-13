@@ -39,10 +39,10 @@ jobs:
           for i in ${{ env.GIT_DIFF }}
           do
             echo $i
-            if [[ $i == $head* ]]; then
+            if [[ $i == $head* ]];
+            then
               echo "match"
-            fi
-            if [[ $i ~= $head* ]]; then
+            else
               echo "mismatch"
             fi
           done
