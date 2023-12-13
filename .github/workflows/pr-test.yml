@@ -15,8 +15,9 @@ jobs:
       - uses: technote-space/get-diff-action@v6
         with:
           SET_ENV_NAME_COUNT:
-          # PATTERNS: |
-          #   pr-test/test1/**
+            diff_count
+          PATTERNS: |
+            pr-test/test1/**
       - name: print git diff
         id: step1
         run: echo "${{ env.GIT_DIFF }}"
@@ -25,8 +26,8 @@ jobs:
         run: echo "${{ env.GIT_DIFF_FILTERED }}"
       - name: print git diff count
         id: step3
-        run: echo "${{ env.count }}""
-  
+        run: echo "${{ env.diff_count }}""
+  ?
   # job2:
   #   runs-on: ubuntu-latest
   #   needs: diff-check-job
