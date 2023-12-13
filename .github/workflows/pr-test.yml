@@ -35,11 +35,12 @@ jobs:
           IFS=' ' read -r -a diff_files <<< "$diff"
           tail="${diff_files[0]#*/*/*/}"
           head="${diff_files[0]%$tail}"
+          head="${head:1}"
           echo $head
           for i in ${{ env.GIT_DIFF }}
           do
             echo $i
-            if [[ $i == $head* ]];
+            if [[ $i == $head* ]]
             then
               echo "match"
             else
