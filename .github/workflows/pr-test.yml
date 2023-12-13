@@ -32,17 +32,27 @@ jobs:
         id: step4
         run: |
           diff="${{env.GIT_DIFF}}"
-          path="${diff[0]:0:14}}"
+          path="${diff[0]:0:13}}"
           echo $path
           for i in "${{ env.GIT_DIFF }}"
           do
             if [[ $i == $path* ]]; then
               echo $i
             fi
-            if [[ $i != $path* ]]; then
-              exit 1
-            fi
           done
+
+   # diff="${{env.GIT_DIFF}}"
+          # path="${diff[0]:0:13}}"
+          # echo $path
+          # for i in "${{ env.GIT_DIFF }}"
+          # do
+          #   if [[ $i == $path* ]]; then
+          #     echo $i
+          #   fi
+          #   if [[ $i != $path* ]]; then
+          #     exit 1
+          #   fi
+          # done       
 
   # project_path 변수 하나 선언해 놓고
 
