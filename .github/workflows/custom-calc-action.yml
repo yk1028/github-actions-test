@@ -1,5 +1,8 @@
 name: Custom culc action
-on: push
+
+on:
+  workflow_dispatch
+
 jobs:
   calculate:
     runs-on: ubuntu-latest
