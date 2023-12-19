@@ -1,0 +1,10 @@
+name: Custom culc action
+on: push
+jobs:
+  calculate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: yk1028/calc-action@main
+        with:
+          x: 12
+          y: 3
