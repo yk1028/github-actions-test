@@ -66,4 +66,8 @@ jobs:
           cd target/wasm32-unknown-unknown/release
           ls
 
+# compile-cosmwasm-job 단계에서 wasm file 경로 저장 가능 -> base64로 인코딩해서 github 변수로 저장하는 방법도 있다. (파일 경로보다 괜찮아 보인다.)
+# 여기부터가 고민인데.. key 문제..
+  broadcast-tx-job:
+    name: broadcast contract store job
 
