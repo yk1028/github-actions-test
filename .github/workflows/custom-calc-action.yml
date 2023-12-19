@@ -11,3 +11,7 @@ jobs:
         with:
           x: 12
           y: 3
+      - name: print results
+        run: |
+          echo "x + y = ${{ steps.calc.outputs.plus }}"
+          echo "x - y = ${{ steps.calc.outputs.minus }}"
