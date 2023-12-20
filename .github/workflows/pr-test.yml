@@ -72,10 +72,7 @@ jobs:
           cargo build --release --target wasm32-unknown-unknown
           mkdir -p ../../../result/cosmwasm/${project_name}
           cp target/wasm32-unknown-unknown/release/${project_name}.wasm ../../../result/cosmwasm/${project_name}
-          cd ../../../result/cosmwasm/${project_name}
-          ls
-          pwd
-          echo "wasm_path=project/result/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
+          echo "wasm_path=projects/result/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
       - uses: actions/setup-node@v3
         with:
           node-version: 16.14.2
