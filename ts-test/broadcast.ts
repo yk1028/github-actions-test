@@ -11,8 +11,11 @@ const cube = new LCDClient({
 
 const store = async () => {
 
-    const wasmPath = core.getInput('wasmPath');
-    const adminMnemonic = core.getInput('mnemonic');
+    const wasmPath = process.argv[2]
+    const adminMnemonic = process.argv[3]
+
+    // const wasmPath = core.getInput('wasmPath');
+    // const adminMnemonic = core.getInput('mnemonic');
 
     console.log(wasmPath)
     console.log(adminMnemonic)

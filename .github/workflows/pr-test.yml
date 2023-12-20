@@ -89,13 +89,14 @@ jobs:
           node-version: 16.14.2
       - name: store tx broadcasting
         working-directory: ts-test
-        inputs:
-          wasmPath:
-          mnemonic:
         run: |
           npm ci
-          npm run ts
-        with:
-          wasmPath: ${{ needs.compile-cosmwasm-job.outputs.wasm_path }}
-          mnemonic: "testMnemonic"
+          npm run ts ${{ needs.compile-cosmwasm-job.outputs.wasm_path }} testMnemonic
+
+        # inputs:
+        #   wasmPath:
+        #   mnemonic:
+        # with:
+        #   wasmPath: ${{ needs.compile-cosmwasm-job.outputs.wasm_path }}
+        #   mnemonic: "testMnemonic"
        
