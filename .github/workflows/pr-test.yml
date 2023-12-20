@@ -17,7 +17,7 @@ jobs:
         with:
           SET_ENV_NAME_COUNT: diff_count
           PATTERNS: |
-            pr-test/source-code/cosmwasm/**
+            projects/source-code/cosmwasm/**
       - name: print git diff
         id: step1
         run: echo "${{ env.GIT_DIFF }}"
@@ -34,9 +34,9 @@ jobs:
           tail="${diff_files[0]#*/*/*/*/}"
           head="${diff_files[0]%$tail}"
           project_path="${head:1}"
-          if [[ $project_path != pr-test/source-code/cosmwasm/* ]]
+          if [[ $project_path != projects/source-code/cosmwasm/* ]]
           then
-            echo "Cosmwasm Project must be registered in pr-test/source-code/cosmwasm/"
+            echo "Cosmwasm Project must be registered in projects/source-code/cosmwasm/"
             exit 1
           fi
           for i in ${{ env.GIT_DIFF }}
