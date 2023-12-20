@@ -80,7 +80,7 @@ jobs:
         working-directory: ts-test
         run: |
           npm ci
-          npm run ts -- ${{ steps.wasm_compile.outputs.wasm_path }} ${{secrets.TEST_MNEMONIC}}
+          npm run ts -- ../${{ steps.wasm_compile.outputs.wasm_path }} "${{secrets.TEST_MNEMONIC}}""
 
 
 
