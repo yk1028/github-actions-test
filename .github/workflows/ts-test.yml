@@ -8,7 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - working-directory: ts-test/
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.2
+      - name: run ts
+        working-directory: ts-test/
         run: |
           npm ci
           ts-node test.ts
