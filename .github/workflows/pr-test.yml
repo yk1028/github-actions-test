@@ -3,6 +3,7 @@ name: Pull request label test
 on:
   workflow_dispatch:
   pull_request:
+    types: [ opened, synchronize ]
 
 jobs:
   diff-check-job:
@@ -47,7 +48,7 @@ jobs:
               exit 1
             fi
           done
-          project_name="${project_path#*/*/}"
+          project_name="${project_path#*/*/*/}"
           echo "project_name=$project_name" >> $GITHUB_OUTPUT
           echo "project_path=$project_path" >> $GITHUB_OUTPUT
 
@@ -55,8 +56,6 @@ jobs:
     name: Compile cosmwasm contract
     needs: diff-check-job
     runs-on: ubuntu-latest
-    outputs:
-      wasm_path: ${{ steps.wasm_compile.outputs.wasm_path }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
@@ -66,30 +65,42 @@ jobs:
         id: wasm_compile
         working-directory: ${{ needs.diff-check-job.outputs.project_path }}
         run: |
-          project_name=${{ needs.diff-check-job.outputs.project_name }}
+          diff_project_name=${{ needs.diff-check-job.outputs.project_name }}
+          project_name="${diff_project_name%?}"
+          echo $project_name
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-          cd target/wasm32-unknown-unknown/release
           mkdir -p ../../../result/cosmwasm/${project_name}
           cp target/wasm32-unknown-unknown/release/${project_name}.wasm ../../../result/cosmwasm/${project_name}
-          echo "wasm_path=project/result/cosmwasm/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
-
-      #.wasm commit
-
-  wasm-store-tx:
-    name: Store cosmwasm contract to xpla chain
-    runs-on: ubuntu-latest
-    needs: compile-cosmwasm-job
-    steps:
-      - uses: actions/checkout@v4
+          echo "wasm_path=projects/result/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
       - uses: actions/setup-node@v3
         with:
           node-version: 16.14.2
       - name: store tx broadcasting
         working-directory: ts-test
-        with:
-          wasmPath: ${{ needs.compile-cosmwasm-job.outputs.wasm_path }}
-          mnemonic: "testMnemonic"
-        run: |                      # output을 통한 wasm path와 secret을 통한 mnemonic 필요
+        run: |
           npm ci
-          npm run ts
+          npm run ts -- ../${{ steps.wasm_compile.outputs.wasm_path }} "${{secrets.TEST_MNEMONIC}}"
+
+
+
+# project name 일관되게 설정하는 방법
+# project, wasm path를 좀 더 정돈되게 관리하는 방법
+
+  # wasm-store-tx:
+  #   name: Store cosmwasm contract to xpla chain
+  #   runs-on: ubuntu-latest
+  #   needs: compile-cosmwasm-job
+  #   steps:
+  #     - uses: actions/checkout@v4
+      
+
+  #       # inputs:
+        #   wasmPath:
+        #   mnemonic:
+        # with:
+        #   wasmPath: ${{ needs.compile-cosmwasm-job.outputs.wasm_path }}
+        #   mnemonic: "testMnemonic"
+
+        # job이 달라져서 파일이 없다.
+       
