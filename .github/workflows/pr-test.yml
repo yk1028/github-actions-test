@@ -74,8 +74,6 @@ jobs:
           cp target/wasm32-unknown-unknown/release/${project_name}.wasm ../../../result/cosmwasm/${project_name}
           echo "wasm_path=project/result/cosmwasm/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
 
-      #.wasm commit
-
   wasm-store-tx:
     name: Store cosmwasm contract to xpla chain
     runs-on: ubuntu-latest
