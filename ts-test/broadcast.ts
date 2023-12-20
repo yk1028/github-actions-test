@@ -1,7 +1,7 @@
 import { isTxError, LCDClient, MnemonicKey, MsgStoreCode } from "@xpla/xpla.js";
 import * as fs from 'fs'
 import * as path from 'path'
-import { getInput } from '@actions/core';
+import * as core from '@actions/core';
 
 const cube = new LCDClient({
     chainID: 'cube_47-5',
@@ -11,8 +11,8 @@ const cube = new LCDClient({
 
 const store = async () => {
 
-    const wasmPath = getInput('wasmPath');
-    const adminMnemonic = getInput('mnemonic');
+    const wasmPath = core.getInput('wasmPath');
+    const adminMnemonic = core.getInput('mnemonic');
 
     console.log(wasmPath)
     console.log(adminMnemonic)
