@@ -80,11 +80,12 @@ jobs:
         working-directory: ts-test
         run: |
           npm ci
-          npm run ts -- ../${{ steps.wasm_compile.outputs.wasm_path }} "${{secrets.TEST_MNEMONIC}}""
+          npm run ts -- ../${{ steps.wasm_compile.outputs.wasm_path }} "${{secrets.TEST_MNEMONIC}}"
 
 
 
 # project name 일관되게 설정하는 방법
+# project, wasm path를 좀 더 정돈되게 관리하는 방법
 
   # wasm-store-tx:
   #   name: Store cosmwasm contract to xpla chain
