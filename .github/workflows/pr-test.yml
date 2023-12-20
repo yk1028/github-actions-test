@@ -68,14 +68,14 @@ jobs:
         working-directory: ${{ needs.diff-check-job.outputs.project_path }}
         run: |
           diff_project_name=${{ needs.diff-check-job.outputs.project_name }}
-          project_name="${diff_project_name:1}"
+          project_name="${diff_project_name:-1}"
           echo $project_name
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
           cd target/wasm32-unknown-unknown/release
-          mkdir -p ../../../result/cosmwasm/${project_name}
-          cp target/wasm32-unknown-unknown/release/${project_name}.wasm ../../../result/cosmwasm/${project_name}
-          echo "wasm_path=project/result/cosmwasm/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
+          mkdir -p ../../../result/cosmwasm/${$project_name}
+          cp target/wasm32-unknown-unknown/release/${$project_name}.wasm ../../../result/cosmwasm/${$project_name}
+          echo "wasm_path=project/result/cosmwasm/cosmwasm/${$project_name}/${$project_name}.wasm" >> $GITHUB_OUTPUT
 
 # project name 일관되게 설정하는 방법
 
