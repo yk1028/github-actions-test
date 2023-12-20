@@ -1,9 +1,7 @@
 name: Simple Diff Test Workflow
 
 on:
- push:
-   paths:
-    - source-code/**
+ workflow_dispatch:
 
 jobs:
   diff:
@@ -24,5 +22,6 @@ jobs:
         if: ${{steps.diff.outputs.removed == 'true'}}
       - run: echo "renamed"
         if: ${{steps.diff.outputs.renamed == 'true'}}
-      - run: ts-node scripts/helloworld.ts
-        if: ${{steps.diff.outputs.added == 'true'}}
+      # - run: ts-node scripts/helloworld.ts
+      #   if: ${{steps.diff.outputs.added == 'true'}}
+      

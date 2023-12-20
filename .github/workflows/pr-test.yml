@@ -3,20 +3,21 @@ name: Pull request label test
 on:
   workflow_dispatch:
   pull_request:
-    types: [ labeled ]
 
 jobs:
   diff-check-job:
     runs-on: ubuntu-latest
     # Map a step output to a job output
-    # outputs:
-    #   output1: ${{ steps.step1.outputs.path }}
+    outputs:
+      project_path: ${{ steps.step4.outputs.project_path }}
+      project_name: ${{ steps.step4.outputs.project_name }}
     steps:
+      - uses: actions/checkout@v4
       - uses: technote-space/get-diff-action@v6
         with:
-          SET_ENV_NAME_COUNT:
+          SET_ENV_NAME_COUNT: diff_count
           PATTERNS: |
-            pr-test/test1/**
+            projects/source-code/cosmwasm/**
       - name: print git diff
         id: step1
         run: echo "${{ env.GIT_DIFF }}"
@@ -25,17 +26,70 @@ jobs:
         run: echo "${{ env.GIT_DIFF_FILTERED }}"
       - name: print git diff count
         id: step3
-        run: echo "${{ env.count }}""
-  
-  # job2:
-  #   runs-on: ubuntu-latest
-  #   needs: diff-check-job
-  #   steps:
-  #     - env:
-  #         OUTPUT1: ${{needs.diff-check-job.outputs.output1}}
-  #       run: echo "$OUTPUT1"
+        run: echo "${{ env.diff_count }}"
+      - name: check number of project
+        id: step4
+        run: |
+          IFS=' ' read -r -a diff_files <<< "${{ env.GIT_DIFF }}"
+          tail="${diff_files[0]#*/*/*/*/}"
+          head="${diff_files[0]%$tail}"
+          project_path="${head:1}"
+          if [[ $project_path != projects/source-code/cosmwasm/* ]]
+          then
+            echo "Cosmwasm Project must be registered in projects/source-code/cosmwasm/"
+            exit 1
+          fi
+          for i in ${{ env.GIT_DIFF }}
+          do
+            if [[ $i != $project_path* ]]
+            then
+              echo "Only one project can be registered!"
+              exit 1
+            fi
+          done
+          project_name="${project_path#*/*/}"
+          echo "project_name=$project_name" >> $GITHUB_OUTPUT
+          echo "project_path=$project_path" >> $GITHUB_OUTPUT
 
+  compile-cosmwasm-job:
+    name: Compile cosmwasm contract
+    needs: diff-check-job
+    runs-on: ubuntu-latest
+    outputs:
+      wasm_path: ${{ steps.wasm_compile.outputs.wasm_path }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - name: cargo build
+        id: wasm_compile
+        working-directory: ${{ needs.diff-check-job.outputs.project_path }}
+        run: |
+          project_name=${{ needs.diff-check-job.outputs.project_name }}
+          rustup target add wasm32-unknown-unknown
+          cargo build --release --target wasm32-unknown-unknown
+          cd target/wasm32-unknown-unknown/release
+          mkdir -p ../../../result/cosmwasm/${project_name}
+          cp target/wasm32-unknown-unknown/release/${project_name}.wasm ../../../result/cosmwasm/${project_name}
+          echo "wasm_path=project/result/cosmwasm/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
 
+      #.wasm commit
 
-
-        # diff, filtered가 같은지 확인 -> 특정 디렉토리 이외의 변경이 있는지 확인 가능
+  wasm-store-tx:
+    name: Store cosmwasm contract to xpla chain
+    runs-on: ubuntu-latest
+    needs: compile-cosmwasm-job
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.2
+      - name: store tx broadcasting
+        working-directory: ts-test
+        with:
+          wasmPath: ${{ needs.compile-cosmwasm-job.outputs.wasm_path }}
+          mnemonic: "testMnemonic"
+        run: |                      # output을 통한 wasm path와 secret을 통한 mnemonic 필요
+          npm ci
+          npm run ts
