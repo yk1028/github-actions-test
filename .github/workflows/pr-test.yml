@@ -74,6 +74,7 @@ jobs:
           cp target/wasm32-unknown-unknown/release/${project_name}.wasm ../../../result/cosmwasm/${project_name}
           cd ../../../result/cosmwasm/${project_name}
           ls
+          pwd
           echo "wasm_path=project/result/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
       - uses: actions/setup-node@v3
         with:
