@@ -86,9 +86,9 @@ jobs:
           node-version: 16.14.2
       - name: store tx broadcasting
         working-directory: ts-test
-        with:
-          wasmPath: ${{ needs.compile-cosmwasm-job.outputs.wasm_path }}
-          mnemonic: "testMnemonic"
         run: |                      # output을 통한 wasm path와 secret을 통한 mnemonic 필요
           npm ci
           npm run ts
+        with:
+          wasmPath: ${{ needs.compile-cosmwasm-job.outputs.wasm_path }}
+          mnemonic: "testMnemonic"
