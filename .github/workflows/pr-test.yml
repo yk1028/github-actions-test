@@ -3,7 +3,6 @@ name: Pull request label test
 on:
   workflow_dispatch:
   pull_request:
-    types: [ opened, synchronize ]
 
 jobs:
   diff-check-job:
@@ -11,13 +10,14 @@ jobs:
     # Map a step output to a job output
     outputs:
       project_path: ${{ steps.step4.outputs.project_path }}
+      project_name: ${{ steps.step4.outputs.project_name }}
     steps:
       - uses: actions/checkout@v4
       - uses: technote-space/get-diff-action@v6
         with:
           SET_ENV_NAME_COUNT: diff_count
           PATTERNS: |
-            pr-test/test1/**
+            pr-test/source-code/cosmwasm/**
       - name: print git diff
         id: step1
         run: echo "${{ env.GIT_DIFF }}"
@@ -31,12 +31,12 @@ jobs:
         id: step4
         run: |
           IFS=' ' read -r -a diff_files <<< "${{ env.GIT_DIFF }}"
-          tail="${diff_files[0]#*/*/*/}"
+          tail="${diff_files[0]#*/*/*/*/}"
           head="${diff_files[0]%$tail}"
           project_path="${head:1}"
-          if [[ $project_path != pr-test/test1/* ]]
+          if [[ $project_path != pr-test/source-code/cosmwasm/* ]]
           then
-            echo "Project must be registered in pr-test/test!"
+            echo "Cosmwasm Project must be registered in pr-test/source-code/cosmwasm/"
             exit 1
           fi
           for i in ${{ env.GIT_DIFF }}
@@ -47,27 +47,49 @@ jobs:
               exit 1
             fi
           done
+          project_name="${project_path#*/*/}"
+          echo "project_name=$project_name" >> $GITHUB_OUTPUT
           echo "project_path=$project_path" >> $GITHUB_OUTPUT
 
   compile-cosmwasm-job:
     name: Compile cosmwasm contract
     needs: diff-check-job
     runs-on: ubuntu-latest
+    outputs:
+      wasm_path: ${{ steps.wasm_compile.outputs.wasm_path }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
       - name: cargo build
+        id: wasm_compile
         working-directory: ${{ needs.diff-check-job.outputs.project_path }}
         run: |
+          project_name=${{ needs.diff-check-job.outputs.project_name }}
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
           cd target/wasm32-unknown-unknown/release
-          ls
+          mkdir -p ../../../result/cosmwasm/${project_name}
+          cp target/wasm32-unknown-unknown/release/${project_name}.wasm ../../../result/cosmwasm/${project_name}
+          echo "wasm_path=project/result/cosmwasm/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
 
-# compile-cosmwasm-job 단계에서 wasm file 경로 저장 가능 -> base64로 인코딩해서 github 변수로 저장하는 방법도 있다. (파일 경로보다 괜찮아 보인다.)
-# 여기부터가 고민인데.. key 문제..
-  broadcast-tx-job:
-    name: broadcast contract store job
+      #.wasm commit
 
+  wasm-store-tx:
+    name: Store cosmwasm contract to xpla chain
+    runs-on: ubuntu-latest
+    needs: compile-cosmwasm-job
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.2
+      - name: store tx broadcasting
+        working-directory: ts-test
+        with:
+          wasmPath: ${{ needs.compile-cosmwasm-job.outputs.wasm_path }}
+          mnemonic: "testMnemonic"
+        run: |                      # output을 통한 wasm path와 secret을 통한 mnemonic 필요
+          npm ci
+          npm run ts
