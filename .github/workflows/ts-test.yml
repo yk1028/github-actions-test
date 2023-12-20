@@ -15,4 +15,4 @@ jobs:
         working-directory: ts-test/
         run: |
           npm ci
-          ts-node test.ts
+          npm run ts
