@@ -48,7 +48,7 @@ jobs:
               exit 1
             fi
           done
-          project_name="${project_path#*/*/}"
+          project_name="${project_path#*/*/*/}"
           echo "project_name=$project_name" >> $GITHUB_OUTPUT
           echo "project_path=$project_path" >> $GITHUB_OUTPUT
 
@@ -67,7 +67,9 @@ jobs:
         id: wasm_compile
         working-directory: ${{ needs.diff-check-job.outputs.project_path }}
         run: |
-          project_name="${${{ needs.diff-check-job.outputs.project_name }}:1}"
+          diff_project_name=${{ needs.diff-check-job.outputs.project_name }}
+          project_name="${diff_project_name:1}"
+          echo $project_name
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
           cd target/wasm32-unknown-unknown/release
