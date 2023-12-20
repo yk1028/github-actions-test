@@ -56,8 +56,6 @@ jobs:
     name: Compile cosmwasm contract
     needs: diff-check-job
     runs-on: ubuntu-latest
-    outputs:
-      wasm_path: ${{ steps.wasm_compile.outputs.wasm_path }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rs/toolchain@v1
@@ -75,15 +73,6 @@ jobs:
           mkdir -p ../../../result/cosmwasm/${project_name}
           cp target/wasm32-unknown-unknown/release/${project_name}.wasm ../../../result/cosmwasm/${project_name}
           echo "wasm_path=project/result/cosmwasm/${project_name}/${project_name}.wasm" >> $GITHUB_OUTPUT
-
-# project name 일관되게 설정하는 방법
-
-  wasm-store-tx:
-    name: Store cosmwasm contract to xpla chain
-    runs-on: ubuntu-latest
-    needs: compile-cosmwasm-job
-    steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: 16.14.2
@@ -91,12 +80,26 @@ jobs:
         working-directory: ts-test
         run: |
           npm ci
-          npm run ts -- ${{ needs.compile-cosmwasm-job.outputs.wasm_path }} ${{secrets.TEST_MNEMONIC}}
+          npm run ts -- ${{ steps.wasm_compile.outputs.wasm_path }} ${{secrets.TEST_MNEMONIC}}
 
-        # inputs:
+
+
+# project name 일관되게 설정하는 방법
+
+  # wasm-store-tx:
+  #   name: Store cosmwasm contract to xpla chain
+  #   runs-on: ubuntu-latest
+  #   needs: compile-cosmwasm-job
+  #   steps:
+  #     - uses: actions/checkout@v4
+      
+
+  #       # inputs:
         #   wasmPath:
         #   mnemonic:
         # with:
         #   wasmPath: ${{ needs.compile-cosmwasm-job.outputs.wasm_path }}
         #   mnemonic: "testMnemonic"
+
+        # job이 달라져서 파일이 없다.
        
