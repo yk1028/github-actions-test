@@ -91,7 +91,7 @@ jobs:
         working-directory: ts-test
         run: |
           npm ci
-          npm run ts ${{ needs.compile-cosmwasm-job.outputs.wasm_path }} testMnemonic
+          npm run ts -- ${{ needs.compile-cosmwasm-job.outputs.wasm_path }} ${{secrets.TEST_MNEMONIC}}
 
         # inputs:
         #   wasmPath:
