@@ -3,6 +3,7 @@ name: Pull request label test
 on:
   workflow_dispatch:
   pull_request:
+    types: [ opened, synchronize ]
 
 jobs:
   diff-check-job:
