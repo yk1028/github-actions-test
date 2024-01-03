@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "ts": "ts-node test.ts",
+    "ts": "ts-node broadcast.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@xpla/xpla.js": "^1.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
