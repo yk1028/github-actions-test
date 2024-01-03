@@ -1,5 +1,5 @@
 [package]
-name = "abi-storage-project"
+name = "abi-storage"
 version = "0.1.0"
 authors = ["wongeunsong <wongeunsong94@gmail.com>"]
 edition = "2021"
