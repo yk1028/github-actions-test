@@ -55,11 +55,13 @@ const store = async () => {
             "store_cosmwasm_project": {
                 "info": {
                     "project_name": projectName, 
-                    "code_id": code_id[0]
+                    "code_id": "" + code_id[0]
                 } 
            }
         }
     );
+
+    console.log(code_id[0])
 
     const tx = await cube_wallet01.createAndSignTx({
         msgs: [testExec],
