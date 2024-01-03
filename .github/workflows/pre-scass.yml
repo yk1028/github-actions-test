@@ -7,7 +7,7 @@ on:
 
 jobs:
   validate-project-structure-job:
-		name: Validate project structure
+    name: Validate project structure
     runs-on: ubuntu-latest
     # Map a step output to a job output
     outputs:
