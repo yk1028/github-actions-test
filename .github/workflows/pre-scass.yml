@@ -24,7 +24,7 @@ jobs:
         id: log
         run: |
 	  echo "${{ env.GIT_DIFF }}"
-	  echo "${{ env.GIT_DIFF_FILTERED }}"
+          echo "${{ env.GIT_DIFF_FILTERED }}"
 	  echo "${{ env.diff_count }}"
       - name: check number of project
         id: validate
