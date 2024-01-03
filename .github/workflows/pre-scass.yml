@@ -20,12 +20,6 @@ jobs:
           SET_ENV_NAME_COUNT: diff_count
           PATTERNS: |
             projects/source-code/cosmwasm/**
-      - name: print git diff
-        id: log
-        run: |
-	  echo "${{ env.GIT_DIFF }}"
-          echo "${{ env.GIT_DIFF_FILTERED }}"
-	  echo "${{ env.diff_count }}"
       - name: check number of project
         id: validate
         run: |
