@@ -2,9 +2,7 @@ name: Test Project Workflow
 
 # pr시 projects/source-code 내용 감지
 on:
-  push:
-    paths:
-      - projects/source-code/**
+  
 
 jobs:
   changedfiles:
