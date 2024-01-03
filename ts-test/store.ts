@@ -2,6 +2,7 @@ import { isTxError, LCDClient, MnemonicKey, MsgExecuteContract, MsgStoreCode } f
 import * as fs from 'fs'
 import * as path from 'path'
 
+// github evn로 처리
 const cube = new LCDClient({
     chainID: 'cube_47-5',
     URL: 'https://cube-lcd.xpla.dev',
@@ -45,11 +46,7 @@ const store = async () => {
 
     console.log(code_id)
 
-    // 위 정보를 바탕으로 contract에 추가하는 작업 진행..
-    // 저장까지 된 정보를 바탕으로 
-
-    const contractAddress = "xpla1g8caj2wv9hlpngvtyafzlhwfctnzrezgkvgzk86725mtn2qtreps3khztz"
-
+    const contractAddress = "xpla1g8caj2wv9hlpngvtyafzlhwfctnzrezgkvgzk86725mtn2qtreps3khztz" // github evn로 처리
 
     const testExec = new MsgExecuteContract(
         cube_wallet01.key.accAddress,
@@ -58,7 +55,7 @@ const store = async () => {
             "store_cosmwasm_project": {
                 "info": {
                     "project_name": projectName, 
-                    "code_id": code_id // cosmwasm에서 i128로 선언했는데 string으로 넣어야 동작
+                    "code_id": code_id[0]
                 } 
            }
         }
