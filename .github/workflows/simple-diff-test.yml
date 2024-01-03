@@ -1,9 +1,7 @@
 name: Simple Diff Test Workflow
 
 on:
- push:
-   paths:
-    - source-code/**
+  workflow_dispatch
 
 jobs:
   diff:
