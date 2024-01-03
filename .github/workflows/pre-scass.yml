@@ -85,4 +85,4 @@ jobs:
         working-directory: ts-test
         run: |
           npm ci
-          npm run ts -- ../${{ needs.validate-project-structure-job.outputs.project_name }} "${{secrets.TEST_MNEMONIC}}"
+          npm run ts -- ../${{ needs.validate-project-structure-job.outputs.project_name }}.wasm "${{secrets.TEST_MNEMONIC}}"
