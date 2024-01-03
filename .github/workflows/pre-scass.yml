@@ -56,27 +56,27 @@ jobs:
           toolchain: stable
       - name: cargo build
         id: wasm_compile
-        working-directory: ${{ needs.diff-check-job.outputs.project_path }}
+        working-directory: ${{ needs.validate-project-structure-job.outputs.project_path }}
         run: |
           rustup target add wasm32-unknown-unknown
           cargo build --release --target wasm32-unknown-unknown
-          echo "wasm_path=target/wasm32-unknown-unknown/release/${{ needs.diff-check-job.outputs.project_name }}.wasm" >> $GITHUB_OUTPUT
+          echo "wasm_path=target/wasm32-unknown-unknown/release/${{ needs.validate-project-structure-job.outputs.project_name }}.wasm" >> $GITHUB_OUTPUT
       - uses: actions/upload-artifact@v3
         name: wasm upload
         id: wasm_upload
-        working-directory: ${{ needs.diff-check-job.outputs.project_path }}
         with:
-          name: ${{ needs.diff-check-job.outputs.project_name }}
+          name: ${{ needs.validate-project-structure-job.outputs.project_name }}
           path: ${{ steps.wasm_compile.outputs.wasm_path }}.wasm 
       
   store-wasm-job:
     name: Store wasm to xpla chain
-    needs: compile-cosmwasm-job 
+    needs: [validate-project-structure-job, compile-cosmwasm-job]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
-        working-directory: ts-test
         with:
-          name: ${{ needs.diff-check-job.outputs.project_name }}
+          name: ${{ needs.validate-project-structure-job.outputs.project_name }}
+          path: ts-test
       - uses: actions/setup-node@v3
         with:
           node-version: 16.14.2
@@ -84,4 +84,4 @@ jobs:
         working-directory: ts-test
         run: |
           npm ci
-          npm run ts -- ${{ needs.diff-check-job.outputs.project_name }} "${{secrets.TEST_MNEMONIC}}"
+          npm run ts -- ${{ needs.validate-project-structure-job.outputs.project_name }} "${{secrets.TEST_MNEMONIC}}"
