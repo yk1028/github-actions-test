@@ -1,7 +1,8 @@
-import { isTxError, LCDClient, MnemonicKey, MsgStoreCode } from "@xpla/xpla.js";
+import { isTxError, LCDClient, MnemonicKey, MsgExecuteContract, MsgStoreCode } from "@xpla/xpla.js";
 import * as fs from 'fs'
 import * as path from 'path'
 
+// github evn로 처리
 const cube = new LCDClient({
     chainID: 'cube_47-5',
     URL: 'https://cube-lcd.xpla.dev',
@@ -10,9 +11,12 @@ const cube = new LCDClient({
 
 const store = async () => {
 
-    const wasmPath = process.argv[2]
-    const adminMnemonic = process.argv[3]
+    const projectName = process.argv[2]
+    const recordContractAddress = process.argv[3]
+    const adminMnemonic = process.argv[4]
+    const wasmPath = projectName + ".wasm"
 
+    console.log(projectName)
     console.log(wasmPath)
     console.log(adminMnemonic)
 
@@ -42,6 +46,29 @@ const store = async () => {
     } = storeCodeTxResult.logs[0].eventsByType;
 
     console.log(code_id)
+
+    const testExec = new MsgExecuteContract(
+        cube_wallet01.key.accAddress,
+        recordContractAddress,
+        {
+            "store_cosmwasm_project": {
+                "info": {
+                    "project_name": projectName, 
+                    "code_id": code_id[0].toString()
+                } 
+           }
+        }
+    );
+
+    console.log(code_id[0])
+
+    const tx = await cube_wallet01.createAndSignTx({
+        msgs: [testExec],
+    });
+
+    const result = await cube.tx.broadcast(tx);
+
+    console.log(result);
 }
 
 store();
