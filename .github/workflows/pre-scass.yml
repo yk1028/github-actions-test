@@ -24,7 +24,7 @@ jobs:
         id: validate
         run: |
           IFS=' ' read -r -a diff_files <<< "${{ env.GIT_DIFF }}"
-          tail="${diff_files[0]#*/*/*/*/}"
+          tail="${diff_files[0]#*/*/*/}"
           head="${diff_files[0]%$tail}"
           project_path="${head:1}"
           if [[ $project_path != projects/cosmwasm/* ]]
@@ -40,7 +40,7 @@ jobs:
               exit 1
             fi
           done
-          diff_project_name="${project_path#*/*/*/}"
+          diff_project_name="${project_path#*/*/}"
           project_name="${diff_project_name%?}"
           echo "project_name=$project_name" >> $GITHUB_OUTPUT
           echo "project_path=$project_path" >> $GITHUB_OUTPUT
