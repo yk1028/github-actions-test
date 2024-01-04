@@ -9,17 +9,18 @@ const cube = new LCDClient({
 
 const query = async () => {
 
-    const contractAddress = "xpla1g8caj2wv9hlpngvtyafzlhwfctnzrezgkvgzk86725mtn2qtreps3khztz" // contract-info
     const projectName = process.argv[2]
+    const recordContractAddress = process.argv[3]
 
     const result = await cube.wasm.contractQuery(
-        contractAddress,
+        recordContractAddress,
         {
             "get_code_id": { "project_name" : projectName }
         }
     );
 
-    console.log(result["cosmwasm_info"].code_id)
+    console.log("project name : " + projectName)
+    console.log("code id:  " + result["cosmwasm_info"].code_id)
 }
 
 query()

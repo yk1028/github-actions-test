@@ -12,7 +12,8 @@ const cube = new LCDClient({
 const store = async () => {
 
     const projectName = process.argv[2]
-    const adminMnemonic = process.argv[3]
+    const recordContractAddress = process.argv[3]
+    const adminMnemonic = process.argv[4]
     const wasmPath = projectName + ".wasm"
 
     console.log(projectName)
@@ -46,11 +47,9 @@ const store = async () => {
 
     console.log(code_id)
 
-    const contractAddress = "xpla1g8caj2wv9hlpngvtyafzlhwfctnzrezgkvgzk86725mtn2qtreps3khztz" // github env로 처리
-
     const testExec = new MsgExecuteContract(
         cube_wallet01.key.accAddress,
-        contractAddress,
+        recordContractAddress,
         {
             "store_cosmwasm_project": {
                 "info": {
