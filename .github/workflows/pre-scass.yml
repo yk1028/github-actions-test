@@ -85,4 +85,19 @@ jobs:
         working-directory: ts-test
         run: |
           npm ci
-          npm run ts -- ${{ needs.validate-project-structure-job.outputs.project_name }} "${{secrets.TEST_MNEMONIC}}"
+          npm run store -- ${{ needs.validate-project-structure-job.outputs.project_name }} "${{secrets.TEST_MNEMONIC}}"
+
+  query-code-id-job:
+    name: Query stored code id
+    needs: [validate-project-structure-job, store-wasm-job]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.14.2
+      - name: store tx broadcasting
+        working-directory: ts-test
+        run: |
+          npm ci
+          npm run query -- ${{ needs.validate-project-structure-job.outputs.project_name }}

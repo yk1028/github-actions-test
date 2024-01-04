@@ -46,7 +46,7 @@ const store = async () => {
 
     console.log(code_id)
 
-    const contractAddress = "xpla1g8caj2wv9hlpngvtyafzlhwfctnzrezgkvgzk86725mtn2qtreps3khztz" // github evn로 처리
+    const contractAddress = "xpla1g8caj2wv9hlpngvtyafzlhwfctnzrezgkvgzk86725mtn2qtreps3khztz" // github env로 처리
 
     const testExec = new MsgExecuteContract(
         cube_wallet01.key.accAddress,
@@ -55,7 +55,7 @@ const store = async () => {
             "store_cosmwasm_project": {
                 "info": {
                     "project_name": projectName, 
-                    "code_id": "" + code_id[0]
+                    "code_id": code_id[0].toString()
                 } 
            }
         }
